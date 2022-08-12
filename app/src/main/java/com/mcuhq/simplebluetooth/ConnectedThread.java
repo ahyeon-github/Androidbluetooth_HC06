@@ -64,6 +64,13 @@ public class ConnectedThread extends Thread {
         } catch (IOException e) { }
     }
 
+    public double read() {
+        try {
+            mmInStream.read();
+        } catch (IOException e) { }
+        return 0;
+    }
+
     /* Call this from the main activity to shutdown the connection */
     public void cancel() {
         try {

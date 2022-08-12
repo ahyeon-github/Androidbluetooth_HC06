@@ -1,5 +1,7 @@
 package com.mcuhq.simplebluetooth;
 
+import static java.lang.String.valueOf;
+
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mListPairedDevicesBtn;
     private Button mDiscoverBtn;
     private ListView mDevicesListView;
-    private CheckBox mLED1;
+    private Button mStartBtn;
 
     private BluetoothAdapter mBTAdapter;
     private Set<BluetoothDevice> mPairedDevices;
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler; // Our main handler that will receive callback notifications
     private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
+
+    public double peak;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         mOffBtn = (Button)findViewById(R.id.off);
         mDiscoverBtn = (Button)findViewById(R.id.discover);
         mListPairedDevicesBtn = (Button)findViewById(R.id.paired_btn);
-        mLED1 = (CheckBox)findViewById(R.id.checkbox_led_1);
+        mStartBtn = (Button) findViewById(R.id.start_btn_1);
 
         mBTArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
@@ -115,14 +119,16 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
 
-            mLED1.setOnClickListener(new View.OnClickListener(){
+            mStartBtn.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
                     if(mConnectedThread != null) //First check to make sure thread created
-                        mConnectedThread.write("1");
+                        mConnectedThread.write("1");    // 1을 보냄
+                        mStartBtn.setText("측정 중 ...");
+                        peak = mConnectedThread.read();    // PEAK 값 수신
+                        mStartBtn.setText(valueOf(peak));
                 }
             });
-
 
             mScanBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
