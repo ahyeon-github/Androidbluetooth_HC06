@@ -25,6 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Status1Activity"/>
+        <activity android:name=".Status2Activity"/>
     </application>
 
 </manifest>

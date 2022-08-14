@@ -127,6 +127,16 @@ public class MainActivity extends AppCompatActivity {
                         mStartBtn.setText("측정 중 ...");
                         peak = mConnectedThread.read();    // PEAK 값 수신
                         mStartBtn.setText(valueOf(peak));
+
+                        if(peak >= 0 && peak < 0.03) {
+                            Intent intent = new Intent(getApplicationContext(), Status1Activity.class);
+                            startActivity(intent);
+                        } else if(peak >= 0.03 && peak <= 0.08) {
+                            Intent intent = new Intent(getApplicationContext(), Status2Activity.class);
+                            startActivity(intent);
+                        } else {
+
+                        }
                 }
             });
 
