@@ -105,17 +105,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if(msg.what == CONNECTING_STATUS){
                     if(msg.arg1 == 1)
-                        mBluetoothStatus.setText("Connected to Device: " + msg.obj);
+                        mBluetoothStatus.setText("기기와 연결됨: " + msg.obj);
                     else
-                        mBluetoothStatus.setText("Connection Failed");
+                        mBluetoothStatus.setText("연결 실패");
                 }
             }
         };
 
         if (mBTArrayAdapter == null) {
             // Device does not support Bluetooth
-            mBluetoothStatus.setText("Status: Bluetooth not found");
-            Toast.makeText(getApplicationContext(),"Bluetooth device not found!",Toast.LENGTH_SHORT).show();
+            mBluetoothStatus.setText("블루투스를 지원하지 않습니다.");
+            Toast.makeText(getApplicationContext(),"블루투스 기기를 찾을 수 없습니다.",Toast.LENGTH_SHORT).show();
         }
         else {
 
@@ -126,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
                         mConnectedThread.write("1");    // 1을 보냄
                         mStartBtn.setText("측정 중 ...");
                         peak = mConnectedThread.read();    // PEAK 값 수신
-                        mStartBtn.setText(valueOf(peak));
+                        mStartBtn.setText("측정 완료");
+                        //mStartBtn.setText(valueOf(peak));
 
                         if(peak >= 0 && peak < 0.03) {
                             Intent intent = new Intent(getApplicationContext(), Status1Activity.class);
@@ -135,7 +136,8 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), Status2Activity.class);
                             startActivity(intent);
                         } else {
-
+                            Intent intent = new Intent(getApplicationContext(), Status3Activity.class);
+                            startActivity(intent);
                         }
                 }
             });
@@ -175,11 +177,11 @@ public class MainActivity extends AppCompatActivity {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             mBluetoothStatus.setText("Bluetooth enabled");
-            Toast.makeText(getApplicationContext(),"Bluetooth turned on",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"블루투스가 켜졌습니다.",Toast.LENGTH_SHORT).show();
 
         }
         else{
-            Toast.makeText(getApplicationContext(),"Bluetooth is already on", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"블루투스가 이미 켜져있습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -192,34 +194,34 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // The user picked a contact.
                 // The Intent's data Uri identifies which contact was selected.
-                mBluetoothStatus.setText("Enabled");
+                mBluetoothStatus.setText("블루투스 사용 가능");
             }
             else
-                mBluetoothStatus.setText("Disabled");
+                mBluetoothStatus.setText("블루투스 사용 불가능");
         }
     }
 
     private void bluetoothOff(){
         mBTAdapter.disable(); // turn off
         mBluetoothStatus.setText("Bluetooth disabled");
-        Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"블루투스가 꺼졌습니다.", Toast.LENGTH_SHORT).show();
     }
 
     private void discover(){
         // Check if the device is already discovering
         if(mBTAdapter.isDiscovering()){
             mBTAdapter.cancelDiscovery();
-            Toast.makeText(getApplicationContext(),"Discovery stopped",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"기기 탐색을 중단합니다.",Toast.LENGTH_SHORT).show();
         }
         else{
             if(mBTAdapter.isEnabled()) {
                 mBTArrayAdapter.clear(); // clear items
                 mBTAdapter.startDiscovery();
-                Toast.makeText(getApplicationContext(), "Discovery started", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "기기 탐색을 시작합니다.", Toast.LENGTH_SHORT).show();
                 registerReceiver(blReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
             }
             else{
-                Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "블루투스가 켜져 있지 않습니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -245,10 +247,10 @@ public class MainActivity extends AppCompatActivity {
             for (BluetoothDevice device : mPairedDevices)
                 mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 
-            Toast.makeText(getApplicationContext(), "Show Paired Devices", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "등록된 기기입니다.", Toast.LENGTH_SHORT).show();
         }
         else
-            Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "블루투스가 켜져 있지 않습니다.", Toast.LENGTH_SHORT).show();
     }
 
     private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
@@ -256,11 +258,11 @@ public class MainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             if(!mBTAdapter.isEnabled()) {
-                Toast.makeText(getBaseContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "블루투스가 켜져 있지 않습니다.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            mBluetoothStatus.setText("Connecting...");
+            mBluetoothStatus.setText("연결 중...");
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) view).getText().toString();
             final String address = info.substring(info.length() - 17);

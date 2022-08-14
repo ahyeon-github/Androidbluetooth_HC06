@@ -2,15 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/status_result_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
         android:textSize="35sp"
         android:textStyle="bold"
-        android:text="알코올 미검출"/>
+        android:text="알코올 검출"/>
 
     <TextView
         android:id="@+id/status_measured_value_tv"
@@ -29,23 +32,26 @@
         android:textSize="35sp"/>
 
     <ImageView
+        android:id="@+id/status_bar_index_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="0dp"
+        android:src="@drawable/downward_arrow"/>
+
+    <ImageView
         android:id="@+id/status_bar_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_status_bar"/>
 
-    <ImageView
-        android:id="@+id/status_bar_index_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/downward_arrow"/>
-
     <Button
         android:id="@+id/status_rent_btn"
         android:layout_width="170dp"
         android:layout_height="60dp"
+        android:layout_marginTop="60dp"
         android:backgroundTint="#BCBCBC"
-        android:text="대여성공"
+        android:text="대여실패"
         android:textColor="#ffffff"
         android:textSize="25sp"/>
 
@@ -53,6 +59,7 @@
         android:id="@+id/status_gohome_btn"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginTop="110dp"
         android:text="홈으로"
         android:textSize="23sp"
         android:textColor="#ffffff"
