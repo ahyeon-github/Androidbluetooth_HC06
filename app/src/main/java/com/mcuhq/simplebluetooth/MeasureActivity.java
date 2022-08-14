@@ -23,7 +23,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +33,9 @@ import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity {
+public class MeasureActivity extends AppCompatActivity {
 
-    private final String TAG = MainActivity.class.getSimpleName();
+    private final String TAG = MeasureActivity.class.getSimpleName();
 
     private static final UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_measure);
 
         mBluetoothStatus = (TextView)findViewById(R.id.bluetooth_status);
         mReadBuffer = (TextView) findViewById(R.id.read_buffer);
