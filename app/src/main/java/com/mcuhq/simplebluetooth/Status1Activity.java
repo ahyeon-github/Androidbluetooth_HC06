@@ -6,13 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-
 public class Status1Activity extends AppCompatActivity {
 
     Button gohome;
+
+    ConnectedThread mConnectedThread = ((MeasureActivity)MeasureActivity.context_main).mConnectedThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +22,11 @@ public class Status1Activity extends AppCompatActivity {
         gohome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(mConnectedThread != null)
-//                    mConnectedThread.write("2");
+                if(mConnectedThread != null)
+                    mConnectedThread.write("2");
 
+                Intent intent = new Intent(getApplicationContext(), MeasureActivity.class);
+                startActivity(intent);
             }
         });
     }
